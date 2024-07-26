@@ -25,7 +25,7 @@ const NavBar = ({ handleSignout }) => {
               </Link>
             </li>
             <li>
-              <Link to="/hoots/new">NEW HOOT</Link>
+              <Link to="/hoots/new">GIVE A HOOT</Link>
             </li>
             {/* <li>
               <Link to="/">Dashboard</Link>

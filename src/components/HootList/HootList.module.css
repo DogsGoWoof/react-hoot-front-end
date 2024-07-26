@@ -70,6 +70,8 @@
     word-break: keep-all;
     text-align-last: left;
     -webkit-box-orient: vertical;
+    font-weight: bold;
+    text-indent: 1rem;
 }
 
 .container header div:first-child {

@@ -93,7 +93,8 @@ const App = () => {
           {user ? (
             // Protected Routes:
             <>
-              <Route path="/" element={<Dashboard user={user} />} />
+              <Route path="/" element={<Landing />} />
+              {/* <Route path="/" element={<Dashboard user={user} />} /> */}
               <Route path="/hoots" element={<HootList hoots={hoots} />} />
               {/* <Route path="/hoots/:hootId" element={<HootDetails />} /> */}
               <Route path="/hoots/new" element={<HootForm handleAddHoot={handleAddHoot} />} />

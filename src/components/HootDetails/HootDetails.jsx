@@ -7,6 +7,9 @@ import { useState, useEffect, useContext } from 'react';
 import * as hootService from '../../services/hootService';
 
 import CommentForm from '../CommentForm/CommentForm';
+import Loading from '../Loading/Loading';
+import Icon from '../Icon/Icon';
+import AuthorInfo from '../../components/AuthorInfo/AuthorInfo';
 
 import styles from './HootDetails.module.css';
 
@@ -52,7 +55,8 @@ const HootDetails = (props) => {
     // console.log('hoot state:', hoot);
 
     // return <main>Hoot Details</main>;
-    if (!hoot) return <main>Loading...</main>;
+    // if (!hoot) return <main>Loading...</main>;
+    if (!hoot) return <Loading />
     return (
         // <main>
         <main className={styles.container}>
@@ -61,15 +65,24 @@ const HootDetails = (props) => {
                 <h1>{hoot.title}</h1>
 
                 <div>
-                    <p>
+                    {/* <p>
                         {hoot.author.username} posted on
                         {new Date(hoot.createdAt).toLocaleDateString()}
-                    </p>
+                    </p> */}
+                    <AuthorInfo content={hoot} />
                     {hoot.author._id === user._id && (
+                        // <>
+                        //     <Link to={`/hoots/${hootId}/edit`}>Edit</Link>
+                        //     <button onClick={() => props.handleDeleteHoot(hootId)}>
+                        //         Delete
+                        //     </button>
+                        // </>
                         <>
-                            <Link to={`/hoots/${hootId}/edit`}>Edit</Link>
+                            <Link to={`/hoots/${hootId}/edit`}>
+                                <Icon category="Edit" />
+                            </Link>
                             <button onClick={() => props.handleDeleteHoot(hootId)}>
-                                Delete
+                                <Icon category="Trash" />
                             </button>
                         </>
                     )}
@@ -89,15 +102,24 @@ const HootDetails = (props) => {
                     <article key={comment._id}>
                         <header>
                             <div>
-                                <p>
+                                {/* <p>
                                     {comment.author.username} posted on
                                     {new Date(comment.createdAt).toLocaleDateString()}
-                                </p>
+                                </p> */}
+                                <AuthorInfo content={comment} />
                                 {comment.author._id === user._id && (
+                                    // <>
+                                    //     <Link to={`/hoots/${hootId}/comments/${comment._id}/edit`}>Edit</Link>
+                                    //     <button onClick={() => handleDeleteComment(comment._id)}>
+                                    //         Delete
+                                    //     </button>
+                                    // </>
                                     <>
-                                        <Link to={`/hoots/${hootId}/comments/${comment._id}/edit`}>Edit</Link>
+                                        <Link to={`/hoots/${hootId}/comments/${comment._id}/edit`}>
+                                            <Icon category="Edit" />
+                                        </Link>
                                         <button onClick={() => handleDeleteComment(comment._id)}>
-                                            Delete
+                                            <Icon category="Trash" />
                                         </button>
                                     </>
                                 )}
