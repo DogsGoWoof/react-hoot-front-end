@@ -11,6 +11,7 @@ import SigninForm from './components/SigninForm/SigninForm';
 import HootList from './components/HootList/HootList';
 import HootDetails from './components/HootDetails/HootDetails';
 import HootForm from './components/HootForm/HootForm';
+import CommentForm from './components/CommentForm/CommentForm';
 
 //___Services___//
 import * as authService from '../src/services/authService'; // import the authservice
@@ -81,7 +82,7 @@ const App = () => {
     setHoots(hoots.map((hoot) => (hootId === hoot._id ? updatedHoot : hoot)));
 
     navigate(`/hoots/${hootId}`);
-    
+
   };
 
   return (
@@ -95,6 +96,7 @@ const App = () => {
               <Route path="/" element={<Dashboard user={user} />} />
               <Route path="/hoots" element={<HootList hoots={hoots} />} />
               {/* <Route path="/hoots/:hootId" element={<HootDetails />} /> */}
+              <Route path="/hoots/new" element={<HootForm handleAddHoot={handleAddHoot} />} />
               <Route
                 path="/hoots/:hootId"
                 element={<HootDetails handleDeleteHoot={handleDeleteHoot} />}
@@ -109,7 +111,10 @@ const App = () => {
                 element={<h1>New Hoot</h1>}
               /> */}
               {/* <Route path="/hoots/new" element={<HootForm />} /> */}
-              <Route path="/hoots/new" element={<HootForm handleAddHoot={handleAddHoot} />} />
+              <Route
+                path="/hoots/:hootId/comments/:commentId/edit"
+                element={<CommentForm />}
+              />
             </>
           ) : (
             // Public Route:

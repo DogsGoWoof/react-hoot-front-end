@@ -21,6 +21,7 @@ const HootDetails = (props) => {
         const fetchHoot = async () => {
             const hootData = await hootService.show(hootId);
             // console.log('hootData', hootData);
+            // console.log(hootData);
             setHoot(hootData);
         };
         fetchHoot();
@@ -31,7 +32,18 @@ const HootDetails = (props) => {
     // };
     const handleAddComment = async (commentFormData) => {
         const newComment = await hootService.createComment(hootId, commentFormData);
+        // console.log(newComment);
         setHoot({ ...hoot, comments: [...hoot.comments, newComment] });
+    };
+
+    const handleDeleteComment = async (hootId, commentId) => {
+        // console.log(hootId);
+        const deletedComment = await hootService.deleteComment(hootId.hootId, commentId);
+        // console.log(deletedComment);
+        const newCommentsArr = hoot.comments.filter((comment) => comment._id !== commentId);
+        // setHoot({ ...hoot, comments: hoot.comments.filter((comment) => comment._id !== commentId) });
+        setHoot({ ...hoot, comments: [...newCommentsArr] }); // use spread operator to assign new array to comments else TypeError occurs
+        console.log(commentId);
     };
 
     // Verify that hoot state is being set correctly:
@@ -70,6 +82,12 @@ const HootDetails = (props) => {
                             <p>
                                 {comment.author.username} posted on {new Date(comment.createdAt).toLocaleDateString()}
                             </p>
+                            {comment.author._id === user._id && (
+                                <>
+                                    <Link to={`/hoots/${hootId}/comments/${comment._id}/edit`}>Edit</Link>
+                                    <button onClick={() => handleDeleteComment({hootId}, comment._id)}>Delete</button>
+                                </>
+                            )}
                         </header>
                         <p>{comment.text}</p>
                     </article>
