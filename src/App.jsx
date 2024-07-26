@@ -32,17 +32,6 @@ const App = () => {
 
   const navigate = useNavigate();
 
-  // const handleAddHoot = async (hootFormData) => {
-  //   console.log('hootFormData', hootFormData);
-  //   navigate('/hoots');
-  // };
-  const handleAddHoot = async (hootFormData) => {
-    const newHoot = await hootService.create(hootFormData);
-    setHoots([newHoot, ...hoots]);
-      // add new value to front of the array to display newest entry at the top
-    navigate('/hoots');
-  };
-
   useEffect(() => {
     const fetchAllHoots = async () => {
       const hootsData = await hootService.index();
@@ -52,6 +41,48 @@ const App = () => {
     };
     if (user) fetchAllHoots();
   }, [user]);
+
+  // const handleAddHoot = async (hootFormData) => {
+  //   console.log('hootFormData', hootFormData);
+  //   navigate('/hoots');
+  // };
+  const handleAddHoot = async (hootFormData) => {
+    const newHoot = await hootService.create(hootFormData);
+    setHoots([newHoot, ...hoots]);
+    // add new value to front of the array to display newest entry at the top
+    navigate('/hoots');
+  };
+
+  // const handleDeleteHoot = async (hootId) => {
+  //   console.log('hootId', hootId);
+  // };
+  // const handleDeleteHoot = async (hootId) => {
+  //   console.log('hootId', hootId);
+  //   setHoots(hoots.filter((hoot) => hoot._id !== hootId));
+  //   navigate('/hoots');
+  // };
+  const handleDeleteHoot = async (hootId) => {
+    // Call upon the service function:
+    const deletedHoot = await hootService.deleteHoot(hootId);
+    // Filter state using deletedHoot._id:
+    setHoots(hoots.filter((hoot) => hoot._id !== deletedHoot._id));
+    // Redirect the user:
+    navigate('/hoots');
+  };
+
+  // const handleUpdateHoot = async (hootId, hootFormData) => {
+  //   console.log('hootId:', hootId, 'hootFormData:', hootFormData);
+  //   navigate(`/hoots/${hootId}`);
+  // };
+  const handleUpdateHoot = async (hootId, hootFormData) => {
+
+    const updatedHoot = await hootService.update(hootId, hootFormData);
+
+    setHoots(hoots.map((hoot) => (hootId === hoot._id ? updatedHoot : hoot)));
+
+    navigate(`/hoots/${hootId}`);
+    
+  };
 
   return (
     <>
@@ -63,7 +94,16 @@ const App = () => {
             <>
               <Route path="/" element={<Dashboard user={user} />} />
               <Route path="/hoots" element={<HootList hoots={hoots} />} />
-              <Route path="/hoots/:hootId" element={<HootDetails />} />
+              {/* <Route path="/hoots/:hootId" element={<HootDetails />} /> */}
+              <Route
+                path="/hoots/:hootId"
+                element={<HootDetails handleDeleteHoot={handleDeleteHoot} />}
+              />
+              {/* <Route path="/hoots/:hootId/edit" element={<HootForm />} /> */}
+              <Route
+                path="/hoots/:hootId/edit"
+                element={<HootForm handleUpdateHoot={handleUpdateHoot} />}
+              />
               {/* <Route
                 path="/hoots/new"
                 element={<h1>New Hoot</h1>}
