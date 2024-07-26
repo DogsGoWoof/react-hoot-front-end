@@ -2,6 +2,8 @@
 
 import { Link } from 'react-router-dom';
 
+import styles from './HootList.module.css';
+
 const HootList = (props) => {
     // return <main>Hoot List</main>;
     //     return (
@@ -12,7 +14,8 @@ const HootList = (props) => {
     //         </main>
     //     );
     return (
-        <main>
+        // <main>
+        <main className={styles.container}>
             {props.hoots.map((hoot) => (
                 <Link key={hoot._id} to={`/hoots/${hoot._id}`}>
                     <article>
